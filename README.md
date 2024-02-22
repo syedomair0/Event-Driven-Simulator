@@ -1,6 +1,5 @@
 Designing a general purpose event driven network simulator
 
-
 ## architecture
 
 simulation engine
@@ -28,3 +27,7 @@ congestion control and management
 
 - scalability
 - accuracy
+
+TODO
+
+write unit tests
