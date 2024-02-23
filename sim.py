@@ -1,14 +1,35 @@
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
+import argparse
+import sys
 
 from network import Network
 
+parser = argparse.ArgumentParser(description="Simulate network packets using different models.")
+parser.add_argument("-simulations", type=int, required=True, help="Number of simulations to run.")
+parser.add_argument("-packets", type=int, required=True, help="Number of packets to simulate.")
+parser.add_argument("-model", choices=["ba", "waxman"], required=True, help="Network model to use (ba or waxman).")
+parser.add_argument("-n", type=int, required=True, help="Number of nodes.")
+parser.add_argument("-m", type=int, required="ba" in sys.argv, help="Number of connections (required if model is 'ba').")
+
+args = parser.parse_args()
+
+# Access the arguments using args.argument_name
+print("Number of simulations:", args.simulations)
+print("Number of packets:", args.packets)
+print("Model chosen:", args.model)
+print("Number of nodes:", args.n)
+if args.model == "ba":
+    print("Number of connections:", args.m)
+
+
 # Simulation parameters
-num_simulations = 10
-num_packets_per_simulation = 50
-n = 100  # Number of nodes
-m = 2    # Number of edges to attach from a new node to existing nodes for Barabási-Albert model
+num_simulations = args.simulations
+num_packets_per_simulation = args.packets
+n = args.n  # Number of nodes
+m = args.m  # Number of edges to attach from a new node to existing nodes only for Barabási-Albert model
+model = "barabasi_albert" if args.model == "ba" else "waxman"
 
 # Data collection variables
 event_handling_times = []
@@ -19,7 +40,7 @@ latencies = []
 
 for _ in range(100):
     start_time = time.time()
-    simulator = Network(model="barabasi_albert", n=n, m=m)
+    simulator = Network(model=model, n=n, m=m)
     # Measure event handling efficiency
     simulator.run_simulation(num_packets=num_packets_per_simulation)
     end_time = time.time()

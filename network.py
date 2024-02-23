@@ -17,7 +17,7 @@ class Network:
             raise ValueError("Unsupported network model")
 
         for (u, v) in self.graph.edges():
-            self.graph.edges[u, v]['weight'] = np.random.randint(1, 10)  # Example: latency between 1 and 10 units
+            self.graph.edges[u, v]['latency'] = np.random.randint(1, 10)  # Example: latency between 1 and 10 units
 
         self.scheduler = Scheduler()
         self.packet_transmissions = 0
@@ -34,7 +34,7 @@ class Network:
             if event.source not in self.graph or event.destination not in self.graph:
                 raise nx.NodeNotFound("Source or destination node not found in the graph.")
             #path = nx.shortest_path(self.graph, source=event.source, target=event.destination)
-            path_length = nx.dijkstra_path_length(self.graph, source=event.source, target=event.destination, weight='weight')
+            path_length = nx.dijkstra_path_length(self.graph, source=event.source, target=event.destination, weight='latency')
 
             self.packet_transmissions += 1
             self.packet_successes += 1
