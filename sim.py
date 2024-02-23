@@ -8,7 +8,7 @@ from network import Network
 
 parser = argparse.ArgumentParser(description="Simulate network packets using different models.")
 parser.add_argument("-simulations", type=int, required=True, help="Number of simulations to run.")
-parser.add_argument("-packets", type=int, required=True, help="Number of packets to simulate.")
+parser.add_argument("-events", type=int, required=True, help="Number of packets to simulate.")
 parser.add_argument("-model", choices=["ba", "waxman"], required=True, help="Network model to use (ba or waxman).")
 parser.add_argument("-n", type=int, required=True, help="Number of nodes.")
 parser.add_argument("-m", type=int, required="ba" in sys.argv, help="Number of connections (required if model is 'ba').")
@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 # Access the arguments using args.argument_name
 print("Number of simulations:", args.simulations)
-print("Number of packets:", args.packets)
+print("Number of events:", args.events)
 print("Model chosen:", args.model)
 print("Number of nodes:", args.n)
 if args.model == "ba":
@@ -26,7 +26,7 @@ if args.model == "ba":
 
 # Simulation parameters
 num_simulations = args.simulations
-num_packets_per_simulation = args.packets
+events = args.events
 n = args.n  # Number of nodes
 m = args.m  # Number of edges to attach from a new node to existing nodes only for Barabási-Albert model
 model = "barabasi_albert" if args.model == "ba" else "waxman"
@@ -38,13 +38,13 @@ network_throughputs = []
 packet_loss_rates = []
 latencies = []
 
-for _ in range(100):
+for _ in range(num_simulations):
     start_time = time.time()
     simulator = Network(model=model, n=n, m=m)
     # Measure event handling efficiency
-    simulator.run_simulation(num_packets=num_packets_per_simulation)
+    simulator.run_simulation(events=events)
     end_time = time.time()
-    event_handling_time = (end_time - start_time) / num_packets_per_simulation
+    event_handling_time = (end_time - start_time) / events
     
     # Calculate packet loss rate
     packet_loss_rate = 1 - (simulator.packet_successes / simulator.packet_transmissions)
@@ -93,7 +93,6 @@ axs[1, 1].set_title('Packet Loss Rate')
 axs[1, 1].set_xlabel('Simulation #')
 axs[1, 1].set_ylabel('Loss Rate')
 
-plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 plt.show()
 
 # Print latency distribution summary

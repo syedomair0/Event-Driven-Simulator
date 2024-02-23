@@ -8,7 +8,7 @@ class Network:
     """
     Represents the network simulation, including the network graph, event scheduling, and statistics.
     """
-    def __init__(self, model="barabasi_albert", n=100, m=2):
+    def __init__(self, model="barabasi_albert", n=200, m=5):
         if model == "barabasi_albert":
             self.graph =  nx.barabasi_albert_graph(n, m)
         elif model == "waxman":
@@ -57,11 +57,11 @@ class Network:
                 node_to_connect = np.random.choice(list(self.graph.nodes()))
                 self.graph.add_edge(new_node, node_to_connect)
 
-    def run_simulation(self, num_packets=50):
+    def run_simulation(self, events=100):
         """
         Runs the network simulation with a specified number of packet events.
         """
-        for _ in range(num_packets):
+        for _ in range(events):
             time = np.random.randint(1, 100)
             source = np.random.randint(0, 100)
             destination = np.random.randint(0, 100)

@@ -1,33 +1,15 @@
-Designing a general purpose event driven network simulator
+uage:
 
-## architecture
+-events = number of events
+-model = either "ba" or "waxman"
+-simulations = number of simulations to run
+-n = number of nodes
+-m = number of connections from each node (only required when -model is "ba")
 
-simulation engine
-network model
+## for the waxman model
 
-## features
+> python3 sim.py -simulations 100 -events 1000 -model waxman -n 200
 
-traffic modeling
-network topology config
-packet routing and forwarding
-congestion control and management
+## for the Barabasi-Albert model
 
-> config.ini to specify simulation parameters
-
-## plugins
-
-- none for now but add for new features
-
-## interface design
-
-- simulation control interface
-- reporting and analysis tool (quick prototyping)
-
-## performance considerations
-
-- scalability
-- accuracy
-
-TODO
-
-write unit tests
+> python3 sim.py -simulations 100 -events 100 -model ba -n 100 -m 5
