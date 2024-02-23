@@ -1,6 +1,7 @@
 import heapq
 import random
 import networkx as nx
+import numpy as np
 
 # Enhanced Event Class
 class Event:
@@ -53,6 +54,15 @@ class Network:
     def get_link_properties(self, source, destination):
         return self.links.get((source, destination), None)
 
+class Link:
+    def __init__(self, source, destination, bandwidth, latency):
+        self.source = source
+        self.destination = destination
+        self.bandwidth = bandwidth  # Bandwidth of the link in Mbps
+        self.latency = latency  # Latency of the link in milliseconds
+
+    def __repr__(self):
+        return f"Link({self.source}->{self.destination}, Bandwidth: {self.bandwidth} Mbps, Latency: {self.latency} ms)"
 
 # Global simulation time
 global_time = 0
@@ -129,7 +139,7 @@ initialize_events(scheduler, num_events=100, network=network)
 run_simulation(scheduler, network)
 
 # Simulating packet arrival events
-simulate_packet_arrival(scheduler, network, num_packets=100)
+#simulate_packet_arrival(scheduler, network, num_packets=100)
 
 # Running the simulation with packet forwarding and routing
-run_simulation_with_routing(scheduler, network)
+#run_simulation_with_routing(scheduler, network)
